@@ -1,0 +1,20 @@
+services:
+  ip-cert:
+    build: Dockerfile
+  image: ip-cert:latest
+  container_name: ip-cert
+  restart: unless-stopped
+  ports:
+    - 80:80
+  environment:
+    LOG_DEBUG: ${LOG_DEBUG:-"false"}
+    LOCAL_EXEC: true
+  volumes:    
+    - ${LOG_DIR:-./log}:/log
+    - ${DATA_DIR:-./data}:/data
+    - ${HOOK_DIR:-./hook}:/hook:ro
+    - ${CONFIG_FILE:-./config.yaml}:/config.yaml:ro
+    - ${CRON_BASE_DIR:-./cron}/scripts:/cron_scripts:ro
+    - ${CRON_BASE_DIR:-./cron}/scripts:/entrypoints.d:ro
+    - /var/run/docker.sock:/var/run/docker.sock
+
