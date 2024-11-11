@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+if [ "${LOG_DEBUG}" = "true" ]; then
+  set -x
+fi
+
+# This script is used to define functions for docker actions
+docker-acme-helper() {
+  echo "docker-action <container_id> <action>"
+  echo "the <container_id> is the container id or name"
+  echo "the <action> is the action you want to perform, such as start, stop, restart, pause, unpause, etc."
+  echo "Example: docker-action my_container_id start" 
+}
+
+# Docker Action
+docker-action() {
+  local CONTAINER_ID=$1
+  local ACTION=$2
+  local DOCKER_HOST=${DOCKER_HOST:-"/var/run/docker.sock"}
+
+  if [ -z "$CONTAINER_ID" ] || [ -z "$ACTION" ]; then
+    docker-acme-helper
+    return 1
+  fi
+
+  if [ -z "$CONTAINER_ID" ] || [ -z "$ACTION" ]; then
+    echo "Usage: docker_action <container_id> <action>"
+    return 1
+  fi
+
+  curl --unix-socket "$DOCKER_HOST" -X POST "http://localhost/containers/$CONTAINER_ID/$ACTION"
+}
+
+docker-action $1 $2
+
+# example
+# Start Proxy
+# docker-action "proxy" "start"
+
+# Stop Container
+# docker-action "your_container_id" "stop"
+
+# Other Actions
+# docker-action "your_container_id" "restart"
+# docker-action "your_container_id" "pause"
+# docker-action "your_container_id" "unpause"
+

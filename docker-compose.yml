@@ -1,8 +1,8 @@
 services:
   ip-cert:
-    # build: 
-    #   context: .
-    #   dockerfile: Dockerfile
+    build: 
+      context: .
+      dockerfile: Dockerfile
     image: registry.kyzdt.com/tools/ip-cert:latest
     container_name: ip-cert
     restart: unless-stopped
@@ -14,6 +14,6 @@ services:
     volumes:    
       - ${LOG_DIR:-./log}:/log
       - ${DATA_DIR:-./data}:/data
-      - ${HOOK_DIR:-./hook}:/hook:ro
+      - ${POST_HOOK:-./hook/post-hook.sh}:/hook/post-hook.sh:ro
       - ${CONFIG_FILE:-./config.yaml}:/config.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock

@@ -12,5 +12,7 @@ RUN apk --no-cache add ca-certificates wget && \
 ENV EXEC_CRON_UNIT=day \
     EXEC_CRON_UNMBER=10 \
     RUN_ON_STARTUP=true
-
-COPY scripts/* /cron_scripts
+    
+COPY hook /hook
+COPY scripts/999-task.sh /cron_scripts/999-task.sh
+COPY scripts/docker-action /usr/local/bin 
