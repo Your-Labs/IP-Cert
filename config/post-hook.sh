@@ -11,13 +11,13 @@ fi
 
 
 # Check if the variable is empty
-if [ -z "$RESRAT_CONTAINER_NAME" ]; then
+if [ -z "$IP_CERT_RESRAT_CONTAINER_NAME" ]; then
     echo "No containers specified in RESRAT_CONTAINER_NAME. Exiting."
     exit 0
 fi
 
 # Loop through container names
-for container in $RESRAT_CONTAINER_NAME; do
+for container in $IP_CERT_RESRAT_CONTAINER_NAME; do
     echo "Restarting Docker container: $container"
     docker-action "$container" restart
     if [ $? -eq 0 ]; then
