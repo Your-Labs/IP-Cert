@@ -40,6 +40,8 @@ services:
       IP_CERT_CITY: "San Francisco"
       IP_CERT_ORGANIZATION: "My Organization"
       IP_CERT_ORG_UNIT: "My Unit"
+      IP_CERT_OUTPUT_CONFIG: true
+      # IP_CERT_RESRAT_CONTAINER_NAME: ""      # List of containers to restart
     volumes:
       - ./log:/log
       - ./certs:/certs

@@ -1,23 +1,32 @@
 services:
   ip-cert:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    image: registry.kyzdt.com/tools/ip-cert:latest
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: registry.kyzdt.com/tools/ip-cert:dev
     container_name: ip-cert
     restart: unless-stopped
     ports:
       - "80:80" # Explicitly use quotes for port mappings
     environment:
-      LOG_DEBUG: ${LOG_DEBUG:-false} # Debug mode (default: false)
-      RESRAT_CONTAINER_NAME: ""      # List of containers to restart
+      IP_CERT_MODE: "env" # Use environment variables to generate the config
+      # IP_CERT_HOST_IP: "your-public-ip" # Must be a public IP address, if empty, get by (curl -s -4 ifconfig.me) 
+      IP_CERT_API_KEY: "fe965f429d4aff0d9a95ac8f6a4f3c73" # Set your ZeroSSL API key here
+      IP_CERT_COUNTRY: "US" # Optional CSR details
+      IP_CERT_PROVINCE: "CA"
+      IP_CERT_CITY: "San Francisco"
+      IP_CERT_ORGANIZATION: "My Organization"
+      IP_CERT_ORG_UNIT: "My Unit"
+      IP_CERT_RESRAT_CONTAINER_NAME: ""      # List of containers to restart
+      IP_CERT_OUTPUT_CONFIG: true
     volumes:
       # Log files
       - ${IP_CERT_LOG_DIR:-./log}:/log
       # Certificate files
       - ${IP_CERT_CERTS_DIR:-./certs}:/certs
-      # Configuration file (read-only)
-      - ${IP_CERT_CONFIG_FILE:-./config/config.yaml}:/config.yaml:ro
+
+      # # Configuration file (read-only)
+      # - ${IP_CERT_CONFIG_FILE:-./config/config.yaml}:/config.yaml:ro
 
       # Optional: Allow container restart via Docker socket
       # Uncomment to enable this feature
