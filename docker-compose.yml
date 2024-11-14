@@ -1,19 +1,30 @@
+version: "3.8" # Specify the Compose file version
+
 services:
   ip-cert:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
     image: registry.kyzdt.com/tools/ip-cert:latest
     container_name: ip-cert
     restart: unless-stopped
     ports:
-      - 80:80
+      - "80:80" # Explicitly use quotes for port mappings
     environment:
-      LOG_DEBUG: ${LOG_DEBUG:-"false"}
-      LOCAL_EXEC: true
-    volumes:    
-      - ${LOG_DIR:-./log}:/log
-      - ${DATA_DIR:-./data}:/data
-      - ${POST_HOOK:-./hook/post-hook.sh}:/hook/post-hook.sh:ro
-      - ${CONFIG_FILE:-./config.yaml}:/config.yaml:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      LOG_DEBUG: ${LOG_DEBUG:-false} # Debug mode (default: false)
+      RESRAT_CONTAINER_NAME: ""      # List of containers to restart
+    volumes:
+      # Log files
+      - ${IP_CERT_LOG_DIR:-./log}:/log
+      # Certificate files
+      - ${IP_CERT_CERTS_DIR:-./certs}:/certs
+      # Configuration file (read-only)
+      - ${IP_CERT_CONFIG_FILE:-./config/config.yaml}:/config.yaml:ro
+
+      # Optional: Allow container restart via Docker socket
+      # Uncomment to enable this feature
+      # - /var/run/docker.sock:/var/run/docker.sock
+
+      # Optional: Use a custom post-hook script
+      # Uncomment and set the appropriate file path
+      # - ${IP_CERT_POST_HOOK:-./config/post-hook.sh}:/hook/post-hook.sh:ro

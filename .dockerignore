@@ -1,0 +1,31 @@
+# Ignore logs directory
+log/
+
+# Ignore CI/CD configuration files
+.gitlab-ci.yaml
+
+# Ignore GitHub workflows and configuration
+.github/
+
+# Ignore configuration files
+config.yaml
+
+# Ignore documentation files
+README.md
+LICENSE
+
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore system and temporary files
+*.swp
+*.tmp
+*.bak
+.DS_Store
+
+# Exclude anything unnecessary from the build context
+node_modules/
+.env
+__pycache__/
+*.log

@@ -2,7 +2,7 @@
 
 RENEW_ARG=""
 
-if [ -f "/data/current.yaml" ]; then
+if [ -f "/certs/current.yaml" ]; then
     RENEW_ARG="-renew"
 fi
 
