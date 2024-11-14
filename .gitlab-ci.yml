@@ -20,9 +20,12 @@ before_script:
 build_image:
   stage: build
   script:
-    - docker build --build-arg VERSION=${IMAGE_VERSION} -t $DOCKER_IMAGE_NAME_LATEST -t $DOCKER_IMAGE_NAME_VERSION .
-    - docker push $DOCKER_IMAGE_NAME_LATEST
-    - docker push $DOCKER_IMAGE_NAME_VERSION
+    - docker buildx create --use
+    - docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 \
+        --build-arg VERSION=${IMAGE_VERSION} \
+        -t $DOCKER_IMAGE_NAME_LATEST \
+        -t $DOCKER_IMAGE_NAME_VERSION \
+        --push .
   rules:
     - if: $CI_COMMIT_BRANCH == $BUILD_BRANCH
       changes:
