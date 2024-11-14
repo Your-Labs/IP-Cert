@@ -1,7 +1,9 @@
-FROM curlimages/curl:latest AS downloader
+FROM alpine:latest AS downloader
 
 ARG TARGETARCH
 ARG VERSION="v1.0.1"
+
+RUN apk add --no-cache curl
 
 RUN curl -L -o /tmp/zerossl-ip-cert.tar.gz https://github.com/tinkernels/zerossl-ip-cert/releases/download/${VERSION}/zerossl-ip-cert-linux-${TARGETARCH}.tar.gz && \
     mkdir -p /tmp/zerossl-ip-cert && \
