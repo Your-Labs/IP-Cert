@@ -34,7 +34,7 @@ jobs:
           docker buildx create --use
           docker buildx build \
             --build-arg VERSION=${IMAGE_VERSION} \
-            --platform linux/amd64,linux/arm64 \
+            --platform linux/amd64 \
             -t ${DOCKER_IMAGE_NAME_LATEST} \
             -t ${DOCKER_IMAGE_NAME_VERSION} \
             --push .
