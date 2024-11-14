@@ -1,4 +1,4 @@
-dataDir: /data # Data directory for containing the status and temporary files
+dataDir: /certs # Data directory for containing the status and temporary files
 logFile: /log/log.txt # Log file
 cleanUnfinished: true # Clean zerossl certificates that are not finished issuing.
 certConfigs:
@@ -35,6 +35,6 @@ certConfigs:
     # post hook executable, will be called after certificates arrival
     postHook: /hook/post-hook.sh
     # certificate store path
-    certFile: /data/cert.pem
+    certFile: /certs/cert.pem
     # key store path
-    keyFile: /data/key.pem
+    keyFile: /certs/key.pem
