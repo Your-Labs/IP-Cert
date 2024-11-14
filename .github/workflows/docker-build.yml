@@ -3,6 +3,15 @@ name: Build Docker Image for Multiple Architectures
 on:
   workflow_dispatch:
 
+env:
+  IMAGE_VERSION: v1.0.1
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  # 将 CI_REGISTRY_IMAGE 设置为 GitHub Container Registry 地址
+  CI_REGISTRY_IMAGE: ghcr.io/your-labs/ip-cert
+  DOCKER_IMAGE_NAME_LATEST: ${{ env.CI_REGISTRY_IMAGE }}:latest
+  DOCKER_IMAGE_NAME_VERSION: ${{ env.CI_REGISTRY_IMAGE }}:${{ env.IMAGE_VERSION }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +26,7 @@ jobs:
       - name: Login to Docker registry
         uses: docker/login-action@v2
         with:
+          registry: ghcr.io
           username: ${{ secrets.CI_REGISTRY_USER }}
           password: ${{ secrets.CI_REGISTRY_PASSWORD }}
 
@@ -24,8 +34,8 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build \
-            --build-arg VERSION=v1.0.1 \
+            --build-arg VERSION=${{ env.IMAGE_VERSION }} \
             --platform linux/amd64,linux/arm64,linux/arm/v7 \
-            -t ${{ secrets.CI_REGISTRY_IMAGE }}:latest \
-            -t ${{ secrets.CI_REGISTRY_IMAGE }}:v1.0.1 \
+            -t ${{ env.DOCKER_IMAGE_NAME_LATEST }} \
+            -t ${{ env.DOCKER_IMAGE_NAME_VERSION }} \
             --push .
