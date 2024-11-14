@@ -1,0 +1,49 @@
+name: Build Docker Image for Multiple Architectures
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/**'
+      - 'hook/**'
+      - 'Dockerfile'
+
+env:
+  IMAGE_VERSION: v1.0.1
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_IMAGE_NAME_LATEST: ${{ secrets.CI_REGISTRY_IMAGE }}:latest
+  DOCKER_IMAGE_NAME_VERSION: ${{ secrets.CI_REGISTRY_IMAGE }}:${{ env.IMAGE_VERSION }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:latest
+        options: --privileged
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.CI_REGISTRY_USER }}
+          password: ${{ secrets.CI_REGISTRY_PASSWORD }}
+
+      - name: Build and Push Docker Image for Multiple Architectures
+        run: |
+          docker buildx create --use
+          docker buildx build \
+            --build-arg VERSION=${{ env.IMAGE_VERSION }} \
+            --platform linux/amd64,linux/arm64,linux/arm/v7 \
+            -t ${{ env.DOCKER_IMAGE_NAME_LATEST }} \
+            -t ${{ env.DOCKER_IMAGE_NAME_VERSION }} \
+            --push .
