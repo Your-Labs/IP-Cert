@@ -26,7 +26,7 @@ Create a `docker-compose.yml` file with the following content:
 ```yaml
 services:
   ip-cert:
-    image: registry.kyzdt.com/tools/ip-cert:latest
+    image: ghcr.io/your-labs/ip-cert:latest
     container_name: ip-cert
     restart: unless-stopped
     ports:
@@ -77,7 +77,7 @@ docker run -d \
   -v ./log:/log \
   -v ./certs:/certs \
   -v ./config:/config \
-  registry.kyzdt.com/tools/ip-cert:latest
+  ghcr.io/your-labs/ip-cert:latest
 ```
 
 ### 2. Running with Existing Configuration File
@@ -91,7 +91,7 @@ version: "3.8"
 
 services:
   ip-cert:
-    image: registry.kyzdt.com/tools/ip-cert:latest
+    image: ghcr.io/your-labs/ip-cert:latest
     container_name: ip-cert
     restart: unless-stopped
     ports:
@@ -209,7 +209,7 @@ This project utilizes the `zerossl-ip-cert` executable for certificate-related o
 To pull the latest version of the IP-Cert Docker image:
 
 ```bash
-docker pull registry.kyzdt.com/tools/ip-cert:latest
+docker pull ghcr.io/your-labs/ip-cert:latest
 ```
 After pulling the updated image, restart the container using Docker Compose or Docker CLI:
 

@@ -3,7 +3,7 @@ services:
     # build: 
     #   context: .
     #   dockerfile: Dockerfile
-    image: registry.kyzdt.com/tools/ip-cert:latest
+    image: ghcr.io/your-labs/ip-cert:latest
     container_name: ip-cert
     restart: unless-stopped
     ports:
