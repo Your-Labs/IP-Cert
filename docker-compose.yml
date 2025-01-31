@@ -11,6 +11,7 @@ services:
     environment:
       IP_CERT_MODE: "env" # Use environment variables to generate the config
       # IP_CERT_HOST_IP: "your-public-ip" # Must be a public IP address, if empty, get by (curl -s -4 ifconfig.me) 
+      # IP_CERT_CONFIG_ID: "your-config-id" # Optional
       IP_CERT_API_KEY: "fe965f429d4aff0d9a95ac8f6a4f3c73" # Set your ZeroSSL API key here
       IP_CERT_COUNTRY: "US" # Optional CSR details
       IP_CERT_PROVINCE: "CA"

@@ -30,6 +30,8 @@ if [ -z "$IP_CERT_HOST_IP" ]; then
     fi
 fi
 
+IP_CERT_CONFIG_ID=${IP_CERT_CONFIG_ID:-$IP_CERT_HOST_IP}
+
 # Initialize the YAML configuration
 cat <<EOF > "$CONFIG_FILE"
 dataDir: /certs # Data directory for containing the status and temporary files
@@ -41,7 +43,7 @@ EOF
 # Generate certConfigs entry from environment variables
 cat <<EOF >> "$CONFIG_FILE"
   - commonName: ${IP_CERT_HOST_IP}
-    confId: ${IP_CERT_HOST_IP} # Mandatory field to identify the certificate configuration
+    confId: ${IP_CERT_CONFIG_ID} # Mandatory field to identify the certificate configuration
     apiKey: ${IP_CERT_API_KEY} # ZeroSSL API key
     ######## CSR INFO ########
     country: ${IP_CERT_COUNTRY:-"US"}

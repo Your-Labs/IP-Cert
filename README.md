@@ -117,6 +117,7 @@ docker-compose up -d
 |----------------------------------|--------------------|----------|-------------|
 | **IP_CERT_MODE**                 | env                | No       | Define how to configure the container (`env` or `file`). Default is `env`. |
 | **IP_CERT_HOST_IP**              | Obtained via `curl`| NO       | Your public IP. If empty, it will be retrieved using `curl -s -4 ifconfig.me`. |
+| **IP_CERT_CONFIG_ID**            | `IP_CERT_HOST_IP`| NO        | To identify the config |
 | **IP_CERT_API_KEY**              | N/A                | Yes      | Your ZeroSSL API key. Mandatory when `IP_CERT_MODE=env`. |
 | **IP_CERT_COUNTRY**              | US                 | No       | CSR country information. Optional when generating the certificate. |
 | **IP_CERT_PROVINCE**             | CA                 | No       | CSR province information. Optional when generating the certificate. |
